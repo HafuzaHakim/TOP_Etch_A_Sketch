@@ -2,6 +2,8 @@ const gridContainer = document.querySelector(".container");
 let gridSizeRange = document.querySelector("#grid-size");
 const applyBtn = document.querySelector(".apply");
 const clearBtn = document.querySelector(".clear");
+const defClrBtn = document.querySelector("#black");
+const randClrBtn = document.querySelector("#random");
 
 let gridSize = gridSizeRange.value;
 
@@ -31,9 +33,50 @@ function removeGrid() {
   gridSizeRange = document.querySelector("#grid-size");
 }
 
-document.addEventListener("DOMContentLoaded", generateGrid);
+function randNum() {
+  return Math.floor(Math.random() * 256);
+}
+
+function randomColor() {
+  return `rgb(${randNum()},${randNum()},${randNum()})`;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  generateGrid();
+  gridContainer.addEventListener("mouseover", (e) => {
+    let colorPref = "black";
+    if (e.target.className === "grid-item") {
+      e.target.style.backgroundColor = colorPref;
+    }
+  });
+});
 
 applyBtn.addEventListener("click", () => {
   removeGrid();
   changeGridSize();
+});
+
+clearBtn.addEventListener("click", () => {
+  const gridItems = document.querySelectorAll(".grid-item");
+  gridItems.forEach((grid) => {
+    grid.style.backgroundColor = "white";
+  });
+});
+
+defClrBtn.addEventListener("click", () => {
+  gridContainer.addEventListener("mouseover", (e) => {
+    let colorPref = "black";
+    if (e.target.className === "grid-item") {
+      e.target.style.backgroundColor = colorPref;
+    }
+  });
+});
+
+randClrBtn.addEventListener("click", () => {
+  gridContainer.addEventListener("mouseover", (e) => {
+    let colorPref = randomColor();
+    if (e.target.className === "grid-item") {
+      e.target.style.backgroundColor = colorPref;
+    }
+  });
 });
